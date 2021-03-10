@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    rabbitmq:
+        image: rabbitmq:3.8-management
+        container_name: rabbitmq
+        hostname: "rabbitMQ_proto_1"
+        env_file: prototype.env
+        networks:
+            - "iotstack"
+        ports:
+            - "1883:1883" # MQTT Port
+            - "5672:5672" # AMQP Port
+            - "15672:15672" # Management UI
+        volumes:
+            - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+
+    redis:
+        image: redis:6.2-alpine # Use Alpine Image
+        container_name: redis
+        privileged: true # Needed when using Linux Alpine Images
+        command: redis-server /usr/local/etc/redis/redis.conf
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./redis:/usr/local/etc/redis
+            - redis_data:/data
+        networks:
+            - "iotstack"
+
+volumes:
+    redis_data:
+
+networks:
+    iotstack:
+        external: true
