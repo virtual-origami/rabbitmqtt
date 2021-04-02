@@ -1,6 +1,30 @@
 version: "3"
 
 services:
+    influxdb:
+        image: influxdb
+        container_name: influxdb
+        env_file: prototype.env
+        ports: 
+            - "8086:8086"
+        volumes: 
+            - ./influxdb:/var/lib/influxdb
+        networks: 
+            - "iotstack"
+
+    grafana:
+        image: grafana/grafana
+        container_name: grafana
+        ports: 
+            - "3005:3000"
+        env_file: prototype.env
+        links: 
+            - influxdb
+        volumes: 
+            - ./grafana/data:/var/lib/grafana
+        networks: 
+            - "iotstack"            
+
     rabbitmq:
         image: rabbitmq:3.8-management
         container_name: rabbitmq
@@ -13,8 +37,10 @@ services:
             - "5672:5672" # AMQP Port
             - "15672:15672" # Management UI
         volumes:
-            - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
-
+            - ./rabbitmq/plugins/enabled_plugins:/etc/rabbitmq/enabled_plugins
+            - ./rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+            - ./rabbitmq/data:/var/lib/rabbitmq/data
+            - ./rabbitmq/log:/var/log/rabbitmq/log
     redis:
         image: redis:6.2-alpine # Use Alpine Image
         container_name: redis
