@@ -38,7 +38,6 @@ services:
             - "15672:15672" # Management UI
         volumes:
             - ./rabbitmq/plugins/enabled_plugins:/etc/rabbitmq/enabled_plugins
-            - ./rabbitmq/conf/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
             - ./rabbitmq/data:/var/lib/rabbitmq/data
             - ./rabbitmq/log:/var/log/rabbitmq/log
     redis:
