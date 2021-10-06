@@ -1,30 +1,6 @@
 version: "3"
 
-services:
-    influxdb:
-        image: influxdb
-        container_name: influxdb
-        env_file: prototype.env
-        ports: 
-            - "8086:8086"
-        volumes: 
-            - ./influxdb:/var/lib/influxdb
-        networks: 
-            - "iotstack"
-
-    grafana:
-        image: grafana/grafana
-        container_name: grafana
-        ports: 
-            - "3005:3000"
-        env_file: prototype.env
-        links: 
-            - influxdb
-        volumes: 
-            - ./grafana/data:/var/lib/grafana
-        networks: 
-            - "iotstack"            
-
+services:           
     rabbitmq:
         image: rabbitmq:3.8-management
         container_name: rabbitmq
@@ -33,7 +9,7 @@ services:
         networks:
             - "iotstack"
         ports:
-            - "1883:1883" # MQTT Port
+            # - "1883:1883" # MQTT Port
             - "5672:5672" # AMQP Port
             - "15672:15672" # Management UI
         volumes:
