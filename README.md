@@ -1,6 +1,8 @@
 # rabbitmqtt
 RabbitMQ + MQTT Pub/Sub Queue Stack
 
+(Currently the MQTT Port 1883 is commented out in the `docker-compose` file
+
 ## Usage
 
 1. Create a network for the stack called `iotstack`:
@@ -20,36 +22,3 @@ RabbitMQ + MQTT Pub/Sub Queue Stack
 ### Log Tracing
 
     docker-compose logs -f
-
-## Consumers
-
-The `consumers` directory has script that will connect to the RabbitMQ Broker via AMQP and list to MQTT Published Payload
-
-### Usage
-
-    cd consumers/
-    # Enable Virtual Environment
-    python -m venv venv
-    . venv/bin/activate
-    # Upgrade pip
-    pip install -U pip
-    # Install Packages
-    pip install -r requirements.txt
-
-Each Code has some CLI arguments in them. Use
-
-    python3 <file_name>.py --help
-
-
-    
-
-## TODO
-
-__Consumers__:
-- [ x ] Give a simple `pika` based Consumer Example
-- [  ] Use `redis` package along with `pika`
-- [  ] Use `celery` to use RabbitMQ and Redis
-
-__Documentation__:
-
-- [ ] Add docs for setting up a distinct use in RabbitMQ via Management UI
